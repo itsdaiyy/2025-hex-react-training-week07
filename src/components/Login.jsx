@@ -1,7 +1,7 @@
 function Login({ handleSubmit, formData, handleInputChange }) {
   return (
-    <div className="container vh-100 d-flex align-items-center justify-content-center">
-      <div className="row border justify-content-center gy-5">
+    <div className="container h-100 d-flex align-items-center justify-content-center">
+      <div className="row border justify-content-center row-gap-5 py-5">
         <h2 className="text-center">請先登入</h2>
         <div className="col-8">
           <form onSubmit={handleSubmit}>

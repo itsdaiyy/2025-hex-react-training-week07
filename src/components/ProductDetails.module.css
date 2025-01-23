@@ -1,0 +1,15 @@
+.cardImg {
+  height: 400px;
+  object-fit: contain;
+}
+
+.squareImg {
+  height: 100px;
+  width: 100px;
+  border-radius: 10%;
+}
+
+.objectFit {
+  object-fit: cover;
+  object-position: center;
+}

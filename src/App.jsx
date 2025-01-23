@@ -1,32 +1,50 @@
 import { useState } from "react";
-import { login } from "./services/apiAuth";
-import axios from "axios";
-import Login from "./Login";
-import AdminDashboard from "./AdminDashboard";
 
-// 1. 讀取 input 欄位
-// 2. 存入 state
-// 3.
+import { login } from "./services/apiAuth";
+
+import AdminDashboard from "./components/AdminDashboard";
+import Login from "./components/Login";
+import CheckLogin from "./components/CheckLogin";
 
 function App() {
+  // 儲存使用者表單資料
   const [formData, setFormData] = useState({
-    username: "behoya11@gmail.com",
-    password: "Googi)5)1",
+    username: "",
+    password: "",
   });
+  // 儲存使用者認證狀態
   const [isAuth, setIsAuth] = useState(false);
 
+  // 提交登入表單的處理函數
   async function handleSubmit(e) {
+    // 防止表單的預設重新整理行為
     e.preventDefault();
+
     const { username, password } = formData;
-    if (!username || !password) return;
+
+    if (!username || !password) {
+      console.error("請輸入使用者名稱和密碼");
+      return;
+    }
 
     const res = await login(formData);
+
+    if (!res) {
+      console.log("登入失敗");
+      return;
+    }
+
+    // 判斷是否成功取得 token 並更新認證狀態
     setIsAuth(!!res?.token);
-    // setFormData({ email: "", password: "" });
+
+    // 清空表單資料（重置表單）
+    setFormData({ username: "", password: "" });
   }
 
   function handleInputChange(e) {
     const { name, value } = e.target;
+
+    // 更新對應欄位的值，保留其他欄位不變
     setFormData((prevValue) => ({
       ...prevValue,
       [name]: value,
@@ -35,6 +53,7 @@ function App() {
 
   return (
     <>
+      <CheckLogin />
       {isAuth ? (
         <AdminDashboard />
       ) : (
