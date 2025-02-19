@@ -12,7 +12,7 @@ function ProductsListItem({ product, onEdit, onDelete, setProducts }) {
         {is_enabled ? (
           <span className="text-success">啟用</span>
         ) : (
-          <span className="text-danger">否</span>
+          <span className="text-danger">未啟用</span>
         )}
       </td>
       <td>
