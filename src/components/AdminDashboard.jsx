@@ -43,7 +43,6 @@ function AdminDashboard() {
 
   // 產品 Modal
   useEffect(() => {
-    console.log(productModalRef.current);
     //  Modal 初始化
     new Modal(productModalRef.current);
     new Modal(deleteProductModalRef.current);
