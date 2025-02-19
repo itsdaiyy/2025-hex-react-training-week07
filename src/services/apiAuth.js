@@ -41,10 +41,11 @@ export async function checkLogin() {
       .split("; ")
       .find((row) => row.startsWith("hexToken"))
       ?.split("=")[1];
-    console.log(token);
+
+    axios.defaults.headers.common.Authorization = `${token}`;
 
     const res = await axios.post(url);
-    console.log(res);
+
     const { success, uid } = res.data;
 
     return { success, uid };

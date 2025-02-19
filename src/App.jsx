@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { login } from "./services/apiAuth";
+import { checkLogin, login } from "./services/apiAuth";
 
 import AdminDashboard from "./components/AdminDashboard";
 import Login from "./components/Login";
@@ -9,11 +9,18 @@ import CheckLogin from "./components/CheckLogin";
 function App() {
   // 儲存使用者表單資料
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+    username: "ollie@test.com",
+    password: "ollieollie01",
   });
   // 儲存使用者認證狀態
   const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const res = await checkLogin();
+      if (res?.success) setIsAuth(true);
+    })();
+  }, []);
 
   // 提交登入表單的處理函數
   async function handleSubmit(e) {
