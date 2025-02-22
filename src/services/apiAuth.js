@@ -49,7 +49,7 @@ export async function checkLogin() {
 
     return { success, uid };
   } catch (error) {
-    console.log("未登入", error);
+    console.error("未登入", error);
     return null;
   }
 }
