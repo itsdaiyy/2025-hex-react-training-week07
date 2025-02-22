@@ -33,7 +33,7 @@ export async function addProduct(product) {
       data: newProduct,
     });
 
-    console.log(`上傳資料成功！🎉`);
+    alert(`上傳資料成功！🎉`);
   } catch (error) {
     console.error(`新增產品發生錯誤：`, error);
     return null;
@@ -74,8 +74,6 @@ export async function updateProduct(product) {
     return null;
   }
 }
-
-///v2/api/{api_path}/admin/upload
 
 export async function uploadImage(imageFile) {
   const formData = new FormData();

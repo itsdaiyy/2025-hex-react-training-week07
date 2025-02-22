@@ -23,7 +23,7 @@ function Login({ setIsAuth }) {
     const res = await login(formData);
 
     if (!res) {
-      console.log("登入失敗");
+      alert("登入失敗");
       return;
     }
 

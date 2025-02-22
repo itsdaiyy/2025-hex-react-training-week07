@@ -25,6 +25,7 @@ function AdminDashboard() {
   const [modalMode, setModalMode] = useState(null);
   const [tempProduct, setTempProduct] = useState(defaultModalState);
   const [pageInfo, setPageInfo] = useState({});
+
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -39,7 +40,7 @@ function AdminDashboard() {
     getData();
   }, []);
 
-  // 產品 Modal
+  // Open DeleteProductModal
   function handleOpenDeleteProductModal(product) {
     setTempProduct(product);
     setIsDeleteModalOpen(true);
