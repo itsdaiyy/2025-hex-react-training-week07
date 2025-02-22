@@ -7,11 +7,6 @@ function DeleteProductModal({ tempProduct, setProducts, isOpen, setIsOpen }) {
   const [modalData, setModalData] = useState({});
   const deleteProductModalRef = useRef(null);
 
-  // 當 tempProduct 狀態改變時，一併更改 modalProduct
-  useEffect(() => {
-    setModalData({ ...tempProduct });
-  }, [tempProduct]);
-
   //  Modal 初始化
   useEffect(() => {
     new Modal(deleteProductModalRef.current);
@@ -19,10 +14,11 @@ function DeleteProductModal({ tempProduct, setProducts, isOpen, setIsOpen }) {
 
   useEffect(() => {
     if (isOpen) {
+      setModalData({ ...tempProduct });
       const modalInstance = Modal.getInstance(deleteProductModalRef.current);
       modalInstance.show();
     }
-  }, [isOpen]);
+  }, [isOpen, tempProduct]);
 
   function handleCloseDeleteProductModal() {
     setIsOpen(false);

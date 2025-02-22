@@ -17,11 +17,6 @@ function ProductModal({
   const [modalData, setModalData] = useState(tempProduct);
   const productModalRef = useRef(null);
 
-  // 當 tempProduct 狀態改變時，一併更改 modalProduct
-  useEffect(() => {
-    setModalData({ ...tempProduct });
-  }, [tempProduct]);
-
   // ref 初始化
   useEffect(() => {
     new Modal(productModalRef.current);
@@ -29,10 +24,11 @@ function ProductModal({
 
   useEffect(() => {
     if (isOpen) {
+      setModalData({ ...tempProduct });
       const modalInstance = Modal.getInstance(productModalRef.current);
       modalInstance.show();
     }
-  }, [isOpen]);
+  }, [isOpen, tempProduct]);
 
   // Close ProductModal
   function handleCloseProductModal() {
@@ -78,6 +74,7 @@ function ProductModal({
     const res = await apiCall(modalData);
     if (res === null) return;
 
+    // setModalData()
     handleCloseProductModal();
 
     const productsRes = await getProducts();

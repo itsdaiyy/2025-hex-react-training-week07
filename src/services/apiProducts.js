@@ -32,8 +32,6 @@ export async function addProduct(product) {
     await axios.post(url, {
       data: newProduct,
     });
-
-    alert(`上傳資料成功！🎉`);
   } catch (error) {
     console.error(`新增產品發生錯誤：`, error);
     return null;
