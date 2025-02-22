@@ -2,6 +2,7 @@ import {
   addProduct,
   getProducts,
   updateProduct,
+  uploadImage,
 } from "../services/apiProducts";
 
 function AddProductModal({
@@ -56,18 +57,10 @@ function AddProductModal({
     setProducts(productsRes.products);
   }
 
-  function handleFileChange(e) {
-    console.log(e.target);
-
+  async function handleFileChange(e) {
     const file = e.target.files[0];
-
-    // console.log(file);
-
-    const formData = new FormData();
-
-    formData.append("file-to-upload", file);
-    console.log(formData);
-    console.log(formData.get("file-to-upload"));
+    const uploadedImageUrl = await uploadImage(file);
+    setTempProduct({ ...tempProduct, imageUrl: uploadedImageUrl });
   }
 
   return (

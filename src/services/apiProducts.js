@@ -86,3 +86,22 @@ export async function updateProduct(product) {
     return null;
   }
 }
+
+///v2/api/{api_path}/admin/upload
+
+export async function uploadImage(imageFile) {
+  const formData = new FormData();
+  formData.append("file-to-upload", imageFile);
+
+  const url = `${VITE_BASE_URL}/v2/api/${VITE_API_PATH}/admin/upload
+`;
+
+  try {
+    const res = await axios.post(url, formData);
+    const uploadedImageUrl = res.data.imageUrl;
+    return uploadedImageUrl;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
