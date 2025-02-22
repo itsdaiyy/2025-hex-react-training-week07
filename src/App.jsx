@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { checkLogin} from "./services/apiAuth";
+import { checkLogin } from "./services/apiAuth";
 
 import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
-import CheckLogin from "./components/CheckLogin";
 
 function App() {
   // 儲存使用者認證狀態
@@ -18,10 +17,9 @@ function App() {
   }, []);
 
   return (
-    <>
-      <CheckLogin />
+    <div className="my-5">
       {isAuth ? <AdminDashboard /> : <Login setIsAuth={setIsAuth} />}
-    </>
+    </div>
   );
 }
 
