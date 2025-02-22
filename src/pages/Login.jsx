@@ -1,4 +1,49 @@
-function Login({ handleSubmit, formData, handleInputChange }) {
+import { useState } from "react";
+import { login } from "../services/apiAuth";
+
+function Login({ setIsAuth }) {
+  // 儲存使用者表單資料
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+  // 提交登入表單的處理函數
+  async function handleSubmit(e) {
+    // 防止表單的預設重新整理行為
+    e.preventDefault();
+
+    const { username, password } = formData;
+
+    if (!username || !password) {
+      console.error("請輸入使用者名稱和密碼");
+      return;
+    }
+
+    const res = await login(formData);
+
+    if (!res) {
+      console.log("登入失敗");
+      return;
+    }
+
+    // 判斷是否成功取得 token 並更新認證狀態
+    setIsAuth(!!res?.token);
+
+    // 清空表單資料（重置表單）
+    setFormData({ username: "", password: "" });
+  }
+
+  function handleInputChange(e) {
+    const { name, value } = e.target;
+
+    // 更新對應欄位的值，保留其他欄位不變
+    setFormData((prevValue) => ({
+      ...prevValue,
+      [name]: value,
+    }));
+  }
+
   return (
     <div className="container h-100 d-flex align-items-center justify-content-center">
       <div className="row border justify-content-center row-gap-5 py-5">

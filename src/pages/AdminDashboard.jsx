@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { Modal } from "bootstrap";
+import { useEffect, useState } from "react";
 
 import { getProducts } from "../services/apiProducts";
 
-import ProductsListItem from "./ProductsListItem";
-import AddProductModal from "./AddProductModal";
-import DeleteProductModal from "./DeleteProductModal";
-import Pagination from "./Pagination";
+import ProductsListItem from "../components/ProductsListItem";
+import ProductModal from "../components/ProductModal";
+import DeleteProductModal from "../components/DeleteProductModal";
+import Pagination from "../components/Pagination";
 
 const defaultModalState = {
   imageUrl: "",
@@ -25,71 +24,32 @@ function AdminDashboard() {
   const [products, setProducts] = useState([]);
   const [modalMode, setModalMode] = useState(null);
   const [tempProduct, setTempProduct] = useState(defaultModalState);
-  const [pageInfo, setPageInfo] = useState();
-
-  const productModalRef = useRef(null);
-  const deleteProductModalRef = useRef(null);
+  const [pageInfo, setPageInfo] = useState({});
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // 載入產品
   useEffect(() => {
     const getData = async () => {
       const data = await getProducts();
-      if (data === null) {
-        setProducts([]);
-        return;
-      }
 
-      const { products, pagination } = data;
-
-      setProducts(products);
-      setPageInfo(pagination);
+      setProducts(data?.products || []);
+      setPageInfo(data?.pagination);
     };
     getData();
   }, []);
 
   // 產品 Modal
-  useEffect(() => {
-    //  Modal 初始化
-    new Modal(productModalRef.current);
-    new Modal(deleteProductModalRef.current);
-  }, []);
-
-  // Open AddProductModal
-  function handleOpenProductModal(mode, product) {
-    setModalMode(mode);
-
-    switch (mode) {
-      case "edit":
-        setTempProduct(product);
-        break;
-
-      case "create":
-        setTempProduct(defaultModalState);
-        break;
-
-      default:
-        break;
-    }
-
-    const modalInstance = Modal.getInstance(productModalRef.current);
-    modalInstance.show();
-  }
-
-  // Close AddProductModal
-  function handleCloseProductModal() {
-    const modalInstance = Modal.getInstance(productModalRef.current);
-    modalInstance.hide();
-  }
-
   function handleOpenDeleteProductModal(product) {
     setTempProduct(product);
-    const modalInstance = Modal.getInstance(deleteProductModalRef.current);
-    modalInstance.show();
+    setIsDeleteModalOpen(true);
   }
 
-  function handleCloseDeleteProductModal() {
-    const modalInstance = Modal.getInstance(deleteProductModalRef.current);
-    modalInstance.hide();
+  // Open ProductModal
+  function handleOpenProductModal(mode, product = defaultModalState) {
+    setModalMode(mode);
+    setTempProduct(product);
+    setIsProductModalOpen(true);
   }
 
   return (
@@ -142,19 +102,18 @@ function AdminDashboard() {
           setPageInfo={setPageInfo}
         />
       </div>
-      <AddProductModal
+      <ProductModal
         tempProduct={tempProduct}
-        setTempProduct={setTempProduct}
-        productModalRef={productModalRef}
-        onClose={handleCloseProductModal}
         modalMode={modalMode}
         setProducts={setProducts}
+        isOpen={isProductModalOpen}
+        setIsOpen={setIsProductModalOpen}
       />
       <DeleteProductModal
         tempProduct={tempProduct}
-        deleteProductModalRef={deleteProductModalRef}
         setProducts={setProducts}
-        onClose={handleCloseDeleteProductModal}
+        isOpen={isDeleteModalOpen}
+        setIsOpen={setIsDeleteModalOpen}
       />
     </>
   );

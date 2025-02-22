@@ -1,16 +1,40 @@
+import { Modal } from "bootstrap";
 import { deleteProduct, getProducts } from "../services/apiProducts";
+import { useEffect, useRef, useState } from "react";
 
-function DeleteProductModal({
-  deleteProductModalRef,
-  tempProduct,
-  setProducts,
-  onClose,
-}) {
+function DeleteProductModal({ tempProduct, setProducts, isOpen, setIsOpen }) {
+  // tempProduct 是初始化的狀態
+  const [modalData, setModalData] = useState({});
+  const deleteProductModalRef = useRef(null);
+
+  // 當 tempProduct 狀態改變時，一併更改 modalProduct
+  useEffect(() => {
+    setModalData({ ...tempProduct });
+  }, [tempProduct]);
+
+  //  Modal 初始化
+  useEffect(() => {
+    new Modal(deleteProductModalRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      const modalInstance = Modal.getInstance(deleteProductModalRef.current);
+      modalInstance.show();
+    }
+  }, [isOpen]);
+
+  function handleCloseDeleteProductModal() {
+    setIsOpen(false);
+    const modalInstance = Modal.getInstance(deleteProductModalRef.current);
+    modalInstance.hide();
+  }
+
   async function handleDeleteProduct(id) {
     const res = await deleteProduct(id);
     if (res === null) return;
 
-    onClose();
+    handleCloseDeleteProductModal();
 
     const productsRes = await getProducts();
     if (productsRes === null) return;
@@ -33,27 +57,25 @@ function DeleteProductModal({
               type="button"
               className="btn-close"
               aria-label="Close"
-              onClick={onClose}
+              onClick={handleCloseDeleteProductModal}
             ></button>
           </div>
           <div className="modal-body">
             你是否要刪除
-            <span className="text-danger fw-bold ms-2">
-              {tempProduct.title}
-            </span>
+            <span className="text-danger fw-bold ms-2">{modalData.title}</span>
           </div>
           <div className="modal-footer">
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={onClose}
+              onClick={handleCloseDeleteProductModal}
             >
               取消
             </button>
             <button
               type="button"
               className="btn btn-danger"
-              onClick={() => handleDeleteProduct(tempProduct.id)}
+              onClick={() => handleDeleteProduct(modalData.id)}
             >
               刪除
             </button>
