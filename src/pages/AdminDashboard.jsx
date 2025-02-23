@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getProducts } from "../services/apiProducts";
+import { getProducts } from "../services/apiAdminProducts";
 
 import ProductsListItem from "../components/ProductsListItem";
 import ProductModal from "../components/ProductModal";

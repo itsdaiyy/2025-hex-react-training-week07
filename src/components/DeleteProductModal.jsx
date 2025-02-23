@@ -1,5 +1,5 @@
 import { Modal } from "bootstrap";
-import { deleteProduct, getProducts } from "../services/apiProducts";
+import { deleteProduct, getProducts } from "../services/apiAdminProducts";
 import { useEffect, useRef, useState } from "react";
 
 function DeleteProductModal({ tempProduct, setProducts, isOpen, setIsOpen }) {

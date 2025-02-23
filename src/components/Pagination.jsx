@@ -1,4 +1,4 @@
-import { getProducts } from "../services/apiProducts";
+import { getProducts } from "../services/apiAdminProducts";
 
 function Pagination({ pageInfo, setProducts, setPageInfo }) {
   async function handlePageChange(page) {
