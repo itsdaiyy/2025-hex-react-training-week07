@@ -6,24 +6,29 @@ function DeleteProductModal({ tempProduct, setProducts, isOpen, setIsOpen }) {
   // tempProduct 是初始化的狀態
   const [modalData, setModalData] = useState({});
   const deleteProductModalRef = useRef(null);
+  const modalInstance = useRef(null);
 
   //  Modal 初始化
   useEffect(() => {
-    new Modal(deleteProductModalRef.current);
+    modalInstance.current = new Modal(deleteProductModalRef.current);
   }, []);
 
   useEffect(() => {
     if (isOpen) {
       setModalData({ ...tempProduct });
-      const modalInstance = Modal.getInstance(deleteProductModalRef.current);
-      modalInstance.show();
+      modalInstance.current.show();
     }
   }, [isOpen, tempProduct]);
 
+  useEffect(() => {
+    deleteProductModalRef.current.addEventListener("hide.bs.modal", () => {
+      setIsOpen(false);
+    });
+  }, [setIsOpen]);
+
   function handleCloseDeleteProductModal() {
     setIsOpen(false);
-    const modalInstance = Modal.getInstance(deleteProductModalRef.current);
-    modalInstance.hide();
+    modalInstance.current.hide();
   }
 
   async function handleDeleteProduct(id) {

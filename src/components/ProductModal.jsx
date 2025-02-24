@@ -16,25 +16,29 @@ function ProductModal({
 }) {
   const [modalData, setModalData] = useState(tempProduct);
   const productModalRef = useRef(null);
+  const modalInstance = useRef(null);
 
   // ref 初始化
   useEffect(() => {
-    new Modal(productModalRef.current);
+    modalInstance.current = new Modal(productModalRef.current);
   }, []);
 
   useEffect(() => {
     if (isOpen) {
       setModalData({ ...tempProduct });
-      const modalInstance = Modal.getInstance(productModalRef.current);
-      modalInstance.show();
+      modalInstance.current.show();
     }
   }, [isOpen, tempProduct]);
 
+  useEffect(() => {
+    productModalRef.current.addEventListener("hide.bs.modal", () => {
+      setIsOpen(false);
+    });
+  }, [setIsOpen]);
+
   // Close ProductModal
   function handleCloseProductModal() {
-    setIsOpen(false);
-    const modalInstance = Modal.getInstance(productModalRef.current);
-    modalInstance.hide();
+    modalInstance.current.hide();
   }
 
   function handleModalInputChange(e) {

@@ -21,7 +21,7 @@ function App() {
   return (
     <div className="my-5">
       <Products />
-      <Cart />
+      {/* <Cart /> */}
 
       {isAuth ? <AdminDashboard /> : <Login setIsAuth={setIsAuth} />}
     </div>

@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { clientGetProducts } from "../services/apiProducts";
+import ProductDetailModal from "../components/client/ProductDetailModal";
 
 function Products() {
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState([]);
+  const [tempProduct, setTempProduct] = useState({});
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -11,10 +14,15 @@ function Products() {
     })();
   }, []);
 
+  function handleMoreDetail(product) {
+    setIsDetailModalOpen(true);
+    setTempProduct(product);
+  }
+
   return (
     <div className="container my-5">
       <div className="row gy-4">
-        {products?.map((el) => {
+        {products.map((product) => {
           const {
             id,
             category,
@@ -27,7 +35,7 @@ function Products() {
             title,
             unit,
             num,
-          } = el;
+          } = product;
           return (
             <div className="col-md-3 col-6" key={id}>
               <div className="card h-100">
@@ -55,6 +63,7 @@ function Products() {
                     <button
                       className="btn btn-outline-secondary rounded-0"
                       type="button"
+                      onClick={() => handleMoreDetail(product)}
                     >
                       查看細節
                     </button>
@@ -65,6 +74,11 @@ function Products() {
           );
         })}
       </div>
+      <ProductDetailModal
+        setIsOpen={setIsDetailModalOpen}
+        isOpen={isDetailModalOpen}
+        tempProduct={tempProduct}
+      />
     </div>
   );
 }
