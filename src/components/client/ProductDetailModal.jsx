@@ -1,8 +1,15 @@
 import { Modal } from "bootstrap";
 import { useEffect, useRef, useState } from "react";
+import { clientAddCartItem, clientGetCart } from "../../services/apiCart";
 
-function ProductDetailModal({ tempProduct, isOpen, setIsOpen }) {
-  const [qtySelect, setQtySelect] = useState("");
+function ProductDetailModal({
+  tempProduct,
+  isOpen,
+  setIsOpen,
+  setCart,
+  onAddCartItem,
+}) {
+  const [qtySelect, setQtySelect] = useState("1");
   const productModalRef = useRef(null);
   const modalInstance = useRef(null);
 
@@ -30,6 +37,15 @@ function ProductDetailModal({ tempProduct, isOpen, setIsOpen }) {
   const closeModal = () => {
     modalInstance.current.hide();
   };
+
+  async function handleAddCartItem(id, qty) {
+    await clientAddCartItem(id, qty);
+
+    closeModal();
+
+    const res = await clientGetCart();
+    setCart(res.data);
+  }
 
   return (
     <div
@@ -78,7 +94,11 @@ function ProductDetailModal({ tempProduct, isOpen, setIsOpen }) {
             </div>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => handleAddCartItem(tempProduct.id, qtySelect)}
+            >
               加入購物車
             </button>
           </div>

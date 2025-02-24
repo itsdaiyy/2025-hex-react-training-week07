@@ -4,8 +4,7 @@ import { checkLogin } from "./services/apiAuth";
 
 import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
-import Cart from "./pages/Cart";
-import Products from "./pages/Products";
+import ClientPage from "./pages/ClientPage";
 
 function App() {
   // 儲存使用者認證狀態
@@ -20,9 +19,7 @@ function App() {
 
   return (
     <div className="my-5">
-      <Products />
-      {/* <Cart /> */}
-
+      <ClientPage />
       {isAuth ? <AdminDashboard /> : <Login setIsAuth={setIsAuth} />}
     </div>
   );

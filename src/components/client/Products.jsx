@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { clientGetProducts } from "../services/apiProducts";
-import ProductDetailModal from "../components/client/ProductDetailModal";
 
-function Products() {
+import { clientGetProducts } from "../../services/apiProducts";
+import { clientAddCartItem, clientGetCart } from "../../services/apiCart";
+
+import ProductDetailModal from "./ProductDetailModal";
+
+function Products({ setCart }) {
   const [products, setProducts] = useState([]);
   const [tempProduct, setTempProduct] = useState({});
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -17,6 +20,13 @@ function Products() {
   function handleMoreDetail(product) {
     setIsDetailModalOpen(true);
     setTempProduct(product);
+  }
+
+  async function handleAddCartItem(id, qty) {
+    await clientAddCartItem(id, qty);
+    const res = await clientGetCart();
+    console.log(res);
+    setCart(res.data);
   }
 
   return (
@@ -57,6 +67,7 @@ function Products() {
                     <button
                       className="btn btn-outline-secondary rounded-0"
                       type="button"
+                      onClick={() => handleAddCartItem(id, 1)}
                     >
                       加入購物車
                     </button>
@@ -78,6 +89,7 @@ function Products() {
         setIsOpen={setIsDetailModalOpen}
         isOpen={isDetailModalOpen}
         tempProduct={tempProduct}
+        setCart={setCart}
       />
     </div>
   );
