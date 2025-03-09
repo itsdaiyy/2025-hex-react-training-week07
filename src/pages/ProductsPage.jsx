@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
+import { clientGetProducts } from "../services/apiProducts";
+import { clientAddCartItem } from "../services/apiCart";
+import { Link } from "react-router-dom";
 
 import ReactLoading from "react-loading";
 
-import { clientGetProducts } from "../../services/apiProducts";
-import { clientAddCartItem, clientGetCart } from "../../services/apiCart";
-
-import ProductDetailModal from "./ProductDetailModal";
-import { Link } from "react-router-dom";
-
-function Products({ setCart }) {
+function ProductsPage() {
   const [products, setProducts] = useState([]);
-  const [tempProduct, setTempProduct] = useState({});
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
 
   useEffect(() => {
@@ -23,16 +18,9 @@ function Products({ setCart }) {
     })();
   }, [setIsScreenLoading]);
 
-  function handleMoreDetail(product) {
-    setIsDetailModalOpen(true);
-    setTempProduct(product);
-  }
-
   async function handleAddCartItem(id, qty) {
     setIsScreenLoading(true);
     await clientAddCartItem(id, qty);
-    const res = await clientGetCart();
-    setCart(res.data);
     setIsScreenLoading(false);
   }
 
@@ -40,19 +28,7 @@ function Products({ setCart }) {
     <div className="container my-5">
       <div className="row gy-4">
         {products.map((product) => {
-          const {
-            id,
-            category,
-            content,
-            description,
-            imageUrl,
-            imagesUrl,
-            origin_price,
-            price,
-            title,
-            unit,
-            num,
-          } = product;
+          const { id, imageUrl, title } = product;
           return (
             <div className="col-lg-3 col-md-4 col-6" key={id}>
               <div className="card h-100">
@@ -78,13 +54,6 @@ function Products({ setCart }) {
                     >
                       加入購物車
                     </button>
-                    {/* <button
-                      className="btn btn-outline-secondary rounded-top-0"
-                      type="button"
-                      onClick={() => handleMoreDetail(product)}
-                    >
-                      查看細節
-                    </button> */}
                     <Link
                       className="btn btn-outline-secondary rounded-top-0"
                       type="button"
@@ -99,13 +68,7 @@ function Products({ setCart }) {
           );
         })}
       </div>
-      <ProductDetailModal
-        setIsScreenLoading={setIsScreenLoading}
-        setIsOpen={setIsDetailModalOpen}
-        isOpen={isDetailModalOpen}
-        tempProduct={tempProduct}
-        setCart={setCart}
-      />
+
       {isScreenLoading && (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -123,4 +86,4 @@ function Products({ setCart }) {
   );
 }
 
-export default Products;
+export default ProductsPage;

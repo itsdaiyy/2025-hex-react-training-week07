@@ -1,9 +1,14 @@
-import { useForm } from "react-hook-form";
-import { createOrder } from "../../services/apiOrders";
-import ReactLoading from "react-loading";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
+import { createOrder } from "../../services/apiOrders";
+
+import ReactLoading from "react-loading";
 
 function OrderForm({ setIsScreenLoading, setCart }) {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -22,6 +27,7 @@ function OrderForm({ setIsScreenLoading, setCart }) {
     setIsLoading(true);
     await createOrder(userInfo);
     setIsLoading(false);
+    navigate("/products");
     setCart({});
     reset();
   });

@@ -13,3 +13,14 @@ export async function clientGetProducts() {
     console.error(`客戶端，取得產品發生錯誤`, error);
   }
 }
+
+export async function clientGetSingleProduct(id) {
+  const url = `${VITE_BASE_URL}/v2/api/${VITE_API_PATH}/product/${id}`;
+
+  try {
+    const res = await axios.get(url);
+    return res.data;
+  } catch (error) {
+    console.error(`客戶端，取得產品發生錯誤`, error);
+  }
+}
