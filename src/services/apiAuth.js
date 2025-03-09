@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const { VITE_BASE_URL } = import.meta.env;
 
@@ -19,8 +20,10 @@ export async function login(account) {
 
     axios.defaults.headers.common.Authorization = `${token}`;
 
+    toast.success(`登入成功！🎉`);
     return { expired, token, message };
   } catch (error) {
+    toast.error(`登入失敗！🎉`);
     console.error(error);
     return null;
   }

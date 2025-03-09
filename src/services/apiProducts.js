@@ -8,7 +8,6 @@ export async function clientGetProducts() {
 
   try {
     const res = await axios.get(url);
-    console.log(res);
     return res.data;
   } catch (error) {
     console.error(`客戶端，取得產品發生錯誤`, error);

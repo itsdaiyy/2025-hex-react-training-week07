@@ -2,22 +2,23 @@ import { useEffect } from "react";
 import { clientClearCart, clientGetCart } from "../../services/apiCart";
 import CartItem from "./CartItem";
 
-function Cart({ cart, setCart }) {
+function Cart({ cart, setCart, setIsScreenLoading }) {
   useEffect(() => {
     (async () => {
       const res = await clientGetCart();
-      console.log(res.data);
       setCart(res.data);
     })();
   }, [setCart]);
 
   async function handleClearCart() {
+    setIsScreenLoading(true);
     const clearRes = await clientClearCart();
     if (clearRes === null) return;
 
     const res = await clientGetCart();
     if (res === null) return;
     setCart(res.data);
+    setIsScreenLoading(false);
   }
 
   return (
@@ -52,6 +53,7 @@ function Cart({ cart, setCart }) {
                   key={cartItem.id}
                   cartItem={cartItem}
                   setCart={setCart}
+                  setIsScreenLoading={setIsScreenLoading}
                 />
               );
             })}

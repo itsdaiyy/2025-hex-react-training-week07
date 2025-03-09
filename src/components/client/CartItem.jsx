@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   clientGetCart,
   clientRemoveCartItem,
@@ -6,18 +7,22 @@ import {
 
 function CartItem({ cartItem, setCart }) {
   const { product } = cartItem;
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleRemoveItem(id) {
+    setIsLoading(true);
     const removeRes = await clientRemoveCartItem(id);
     if (removeRes === null) return;
 
     const res = await clientGetCart();
     if (res === null) return;
     setCart(res.data);
+    setIsLoading(false);
   }
 
   async function handleUpdateCartItem(cartId, product_id, qty) {
     let success = false;
+    setIsLoading(true);
 
     if (qty === 0) {
       const removeRes = await clientRemoveCartItem(cartId);
@@ -31,6 +36,8 @@ function CartItem({ cartItem, setCart }) {
       const res = await clientGetCart();
       if (res) setCart(res.data);
     }
+
+    setIsLoading(false);
   }
 
   return (
@@ -40,6 +47,7 @@ function CartItem({ cartItem, setCart }) {
           type="button"
           className="btn btn-outline-danger btn-sm"
           onClick={() => handleRemoveItem(cartItem.id)}
+          disabled={isLoading}
         >
           x
         </button>
@@ -58,6 +66,7 @@ function CartItem({ cartItem, setCart }) {
                   cartItem.qty - 1
                 )
               }
+              disabled={isLoading}
             >
               -
             </button>
@@ -77,6 +86,7 @@ function CartItem({ cartItem, setCart }) {
                   cartItem.qty + 1
                 )
               }
+              disabled={isLoading}
             >
               +
             </button>

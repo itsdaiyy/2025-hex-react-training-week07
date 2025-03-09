@@ -1,16 +1,30 @@
 import { useForm } from "react-hook-form";
+import { createOrder } from "../../services/apiOrders";
+import ReactLoading from "react-loading";
+import { useState } from "react";
 
-function OrderForm() {
+function OrderForm({ setIsScreenLoading, setCart }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = handleSubmit(async (data) => {
+    const { message, ...user } = data;
+    const userInfo = {
+      user,
+      message,
+    };
+    setIsLoading(true);
+    await createOrder(userInfo);
+    setIsLoading(false);
+    setCart({});
+    reset();
   });
-  console.log(errors);
 
   return (
     <div className="container">
@@ -45,7 +59,7 @@ function OrderForm() {
             </label>
             <input
               {...register("name", {
-                required: true,
+                required: "姓名欄位必填",
               })}
               id="name"
               name="name"
@@ -53,9 +67,9 @@ function OrderForm() {
               className={`form-control ${errors.name && `is-invalid`}`}
               placeholder="請輸入姓名"
             />
-            {/* {errors.name && (
-              <p className="text-danger my-2">{errors.email.name}</p>
-            )} */}
+            {errors.name && (
+              <p className="text-danger my-2">{errors.name.message}</p>
+            )}
           </div>
 
           <div className="mb-3">
@@ -63,9 +77,16 @@ function OrderForm() {
               收件人電話
             </label>
             <input
+              {...register("tel", {
+                required: "電話欄位必填",
+                pattern: {
+                  value: /^(0[2-8]\d{7}|09\d{8})$/,
+                  message: "電話格式錯誤",
+                },
+              })}
               id="tel"
               name="tel"
-              type="text"
+              type="tel"
               className={`form-control ${errors.tel && `is-invalid`}`}
               placeholder="請輸入電話"
             />
@@ -79,8 +100,11 @@ function OrderForm() {
               收件人地址
             </label>
             <input
+              {...register("address", {
+                required: "地址欄位必填",
+              })}
               id="address"
-              name="地址"
+              name="address"
               type="text"
               className={`form-control ${errors.address && `is-invalid`}`}
               placeholder="請輸入地址"
@@ -95,15 +119,30 @@ function OrderForm() {
               留言
             </label>
             <textarea
+              {...register("message")}
               id="message"
+              name="message"
               className="form-control"
               cols="30"
               rows="10"
             ></textarea>
           </div>
           <div className="text-end">
-            <button type="submit" className="btn btn-success">
-              送出訂單
+            <button
+              type="submit"
+              className="btn btn-outline-success"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <ReactLoading
+                  type={"spin"}
+                  color={"#000"}
+                  height={"1.5rem"}
+                  width={"1.5rem"}
+                />
+              ) : (
+                "送出訂單 🧾"
+              )}
             </button>
           </div>
         </form>

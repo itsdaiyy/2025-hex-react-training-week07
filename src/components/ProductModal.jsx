@@ -78,7 +78,6 @@ function ProductModal({
     const res = await apiCall(modalData);
     if (res === null) return;
 
-    // setModalData()
     handleCloseProductModal();
 
     const productsRes = await getProducts();

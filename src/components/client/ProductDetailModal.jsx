@@ -2,20 +2,13 @@ import { Modal } from "bootstrap";
 import { useEffect, useRef, useState } from "react";
 import { clientAddCartItem, clientGetCart } from "../../services/apiCart";
 
-function ProductDetailModal({
-  tempProduct,
-  isOpen,
-  setIsOpen,
-  setCart,
-  onAddCartItem,
-}) {
+function ProductDetailModal({ tempProduct, isOpen, setIsOpen, setCart }) {
   const [qtySelect, setQtySelect] = useState("1");
   const productModalRef = useRef(null);
   const modalInstance = useRef(null);
 
   useEffect(() => {
     modalInstance.current = new Modal(productModalRef.current);
-    console.log(productModalRef.current);
   }, []);
 
   useEffect(() => {
