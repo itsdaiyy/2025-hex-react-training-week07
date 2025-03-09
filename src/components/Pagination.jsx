@@ -1,11 +1,19 @@
 import { getProducts } from "../services/apiAdminProducts";
 
-function Pagination({ pageInfo, setProducts, setPageInfo }) {
-  async function handlePageChange(page) {
+function Pagination({
+  pageInfo,
+  setProducts,
+  setPageInfo,
+  setIsScreenLoading,
+}) {
+  async function handlePageChange(page, e) {
+    e.preventDefault();
+    setIsScreenLoading(true);
     const data = await getProducts(page);
     if (data === null) return;
     setProducts(data.products);
     setPageInfo(data.pagination);
+    setIsScreenLoading(false);
   }
 
   return (
@@ -14,7 +22,7 @@ function Pagination({ pageInfo, setProducts, setPageInfo }) {
         <ul className="pagination">
           <li className="page-item">
             <a
-              onClick={() => handlePageChange(pageInfo?.current_page - 1)}
+              onClick={(e) => handlePageChange(pageInfo?.current_page - 1, e)}
               className={`page-link ${!pageInfo?.has_pre && `disabled`}`}
               href="#"
             >
@@ -27,7 +35,7 @@ function Pagination({ pageInfo, setProducts, setPageInfo }) {
           ).map((el) => (
             <li className="page-item" key={el}>
               <a
-                onClick={() => handlePageChange(el)}
+                onClick={(e) => handlePageChange(el, e)}
                 className={`page-link ${
                   el === pageInfo?.current_page && `active`
                 }`}
@@ -39,7 +47,7 @@ function Pagination({ pageInfo, setProducts, setPageInfo }) {
           ))}
           <li className="page-item">
             <a
-              onClick={() => handlePageChange(pageInfo?.current_page + 1)}
+              onClick={(e) => handlePageChange(pageInfo?.current_page + 1, e)}
               className={`page-link ${!pageInfo?.has_next && `disabled`}`}
               href="#"
             >

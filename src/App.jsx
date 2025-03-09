@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import ReactLoading from "react-loading";
 
 import { checkLogin } from "./services/apiAuth";
 
@@ -24,8 +25,25 @@ function App() {
         setIsScreenLoading={setIsScreenLoading}
         isScreenLoading={isScreenLoading}
       />
-      {isAuth ? <AdminDashboard /> : <Login setIsAuth={setIsAuth} />}
+      {isAuth ? (
+        <AdminDashboard setIsScreenLoading={setIsScreenLoading} />
+      ) : (
+        <Login setIsAuth={setIsAuth} />
+      )}
 
+      {isScreenLoading && (
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(255,255,255,0.3)",
+            zIndex: 999,
+          }}
+        >
+          <ReactLoading type="spin" color="black" width="4rem" height="4rem" />
+        </div>
+      )}
       <Toaster />
     </div>
   );

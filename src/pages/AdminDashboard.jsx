@@ -20,7 +20,7 @@ const defaultModalState = {
   imagesUrl: [""],
 };
 
-function AdminDashboard() {
+function AdminDashboard({ setIsScreenLoading }) {
   const [products, setProducts] = useState([]);
   const [modalMode, setModalMode] = useState(null);
   const [tempProduct, setTempProduct] = useState(defaultModalState);
@@ -101,6 +101,7 @@ function AdminDashboard() {
           pageInfo={pageInfo}
           setProducts={setProducts}
           setPageInfo={setPageInfo}
+          setIsScreenLoading={setIsScreenLoading}
         />
       </div>
       <ProductModal

@@ -23,7 +23,7 @@ export async function login(account) {
     toast.success(`登入成功！🎉`);
     return { expired, token, message };
   } catch (error) {
-    toast.error(`登入失敗！🎉`);
+    toast.error(`登入失敗！`);
     console.error(error);
     return null;
   }

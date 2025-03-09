@@ -89,6 +89,7 @@ function ProductModal({
     const file = e.target.files[0];
     const uploadedImageUrl = await uploadImage(file);
     setModalData({ ...modalData, imageUrl: uploadedImageUrl });
+    e.target.value = "";
   }
 
   return (
@@ -260,6 +261,7 @@ function ProductModal({
                       placeholder="請輸入原價"
                       value={modalData.origin_price}
                       onChange={handleModalInputChange}
+                      min={0}
                     />
                   </div>
                   <div className="col-6">
@@ -274,6 +276,7 @@ function ProductModal({
                       placeholder="請輸入售價"
                       value={modalData.price}
                       onChange={handleModalInputChange}
+                      min={0}
                     />
                   </div>
                 </div>
