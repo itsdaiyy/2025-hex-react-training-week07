@@ -7,6 +7,7 @@ const routes = [
   { path: "/login", name: "管理者" },
 ];
 
+// 重構成共用組件
 function Navbar() {
   return (
     <nav
