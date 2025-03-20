@@ -8,41 +8,48 @@ import ProductsPage from "../pages/ProductsPage";
 import NotFound from "../pages/NotFound";
 import LoginPage from "../pages/LoginPage";
 import AdminDashboard from "../pages/AdminDashboard";
+import RootLayout from "../layouts/RootLayout";
 
 const router = createHashRouter([
   {
     path: "/",
-    element: <FrontLayout />,
+    element: <RootLayout />,
     children: [
       {
-        path: "",
-        element: <HomePage />,
+        path: "/",
+        element: <FrontLayout />,
+        children: [
+          {
+            path: "",
+            element: <HomePage />,
+          },
+          {
+            path: "products",
+            element: <ProductsPage />,
+          },
+          {
+            path: "products/:id",
+            element: <ProductDetailPage />,
+          },
+          {
+            path: "cart",
+            element: <CartPage />,
+          },
+        ],
       },
       {
-        path: "products",
-        element: <ProductsPage />,
+        path: "/admin",
+        element: <AdminDashboard />,
       },
       {
-        path: "products/:id",
-        element: <ProductDetailPage />,
+        path: "/login",
+        element: <LoginPage />,
       },
       {
-        path: "cart",
-        element: <CartPage />,
+        path: "*",
+        element: <NotFound />,
       },
     ],
-  },
-  {
-    path: "/admin",
-    element: <AdminDashboard />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "*",
-    element: <NotFound />,
   },
 ]);
 

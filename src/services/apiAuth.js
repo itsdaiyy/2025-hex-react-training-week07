@@ -1,5 +1,6 @@
 import axios from "axios";
-import toast from "react-hot-toast";
+import store from "../redux/store";
+import { addToast } from "../redux/toastSlice";
 
 const { VITE_BASE_URL } = import.meta.env;
 
@@ -19,11 +20,10 @@ export async function login(account) {
     document.cookie = `hexToken=${token};expires=${new Date(expired)}`;
 
     axios.defaults.headers.common.Authorization = `${token}`;
-
-    toast.success(`登入成功！🎉`);
+    store.dispatch(addToast({ type: "success", message: "登入成功！🎉" }));
     return { expired, token, message };
   } catch (error) {
-    toast.error(`登入失敗！`);
+    store.dispatch(addToast({ type: "error", message: "登入失敗...☹️" }));
     console.error(error);
     return null;
   }

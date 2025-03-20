@@ -1,10 +1,9 @@
 import axios from "axios";
-import toast from "react-hot-toast";
+import store from "../redux/store";
+import { addToast } from "../redux/toastSlice";
 
 // 從環境變數中解構出 API 基本路徑
 const { VITE_BASE_URL, VITE_API_PATH } = import.meta.env;
-
-// /v2/api/{api_path}/order
 
 export async function createOrder(userInfo) {
   try {
@@ -16,10 +15,11 @@ export async function createOrder(userInfo) {
     );
 
     const data = res.data;
-    toast.success(`建立訂單成功！🎉`);
+    store.dispatch(addToast({ type: "success", message: "成功建立訂單！🎉" }));
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("建立訂單失敗☹️");
+
+    store.dispatch(addToast({ type: "error", message: "建立訂單失敗...☹️" }));
   }
 }
