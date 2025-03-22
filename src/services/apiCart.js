@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../redux/store";
-import { addToast } from "../redux/toastSlice";
+import { addToast, createAsyncToast } from "../redux/toastSlice";
 
 const { VITE_BASE_URL, VITE_API_PATH } = import.meta.env;
 
@@ -28,7 +28,7 @@ export async function clientAddCartItem(product_id, qty) {
     });
 
     store.dispatch(
-      addToast({ type: "success", message: "成功加入購物車！🎉" })
+      createAsyncToast({ type: "success", message: "成功加入購物車！🎉" })
     );
     return res.data;
   } catch (error) {
