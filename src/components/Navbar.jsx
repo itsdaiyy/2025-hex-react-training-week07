@@ -1,14 +1,14 @@
-import { NavLink } from "react-router-dom";
-
-const routes = [
-  { path: "/", name: "首頁" },
-  { path: "/products", name: "產品列表" },
-  { path: "/cart", name: "購物車" },
-  { path: "/login", name: "管理者" },
-];
+import { NavLink, useNavigate } from "react-router-dom";
+import { logout } from "../services/apiAuth";
 
 // 重構成共用組件
-function Navbar() {
+function Navbar({ routes = [], hasLogoutBtn = false }) {
+  const navigate = useNavigate();
+  async function handleLogout() {
+    await logout();
+    navigate("/");
+  }
+
   return (
     <nav
       className="navbar bg-dark border-bottom border-body"
@@ -23,6 +23,13 @@ function Navbar() {
               </NavLink>
             </li>
           ))}
+          {hasLogoutBtn && (
+            <li className="nav-item">
+              <button className="nav-link" onClick={handleLogout}>
+                登出
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </nav>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../redux/store";
-import { addToast } from "../redux/toastSlice";
+import { addToast, createAsyncToast } from "../redux/toastSlice";
 
 // 從環境變數中解構出 API 基本路徑
 const { VITE_BASE_URL, VITE_API_PATH } = import.meta.env;
@@ -16,7 +16,9 @@ export async function getProducts(page = 1) {
     return data;
   } catch (error) {
     console.error(`讀取產品發生錯誤`, error);
-    store.dispatch(addToast({ type: "error", message: "讀取產品失敗" }));
+    store.dispatch(
+      createAsyncToast({ status: "error", text: error.response.data.message })
+    );
     return null;
   }
 }
@@ -35,10 +37,14 @@ export async function addProduct(product) {
     await axios.post(url, {
       data: newProduct,
     });
-    store.dispatch(addToast({ type: "success", message: "成功建立產品！🎉" }));
-  } catch (error) {
     store.dispatch(
-      addToast({ type: "error", message: "新增產品發生錯誤...☹️" })
+      createAsyncToast({ status: "success", text: "成功建立產品！🎉" })
+    );
+  } catch (error) {
+    const { message } = error.response.data;
+
+    store.dispatch(
+      createAsyncToast({ status: "error", text: message.join("、") })
     );
     console.error(`新增產品發生錯誤：`, error);
     return null;
@@ -52,12 +58,14 @@ export async function deleteProduct(productId) {
     const res = await axios.delete(url);
     const data = res.data;
 
-    store.dispatch(addToast({ type: "success", message: "成功刪除產品！🎉" }));
+    store.dispatch(
+      createAsyncToast({ status: "success", text: "成功刪除產品！🎉" })
+    );
 
     return data;
   } catch (error) {
     store.dispatch(
-      addToast({ type: "error", message: "刪除產品發生錯誤...☹️" })
+      createAsyncToast({ status: "error", text: error.response.data.message })
     );
     console.error(`刪除產品發生錯誤`, error);
     return null;
@@ -80,12 +88,14 @@ export async function updateProduct(product) {
     });
     const data = res.data;
 
-    store.dispatch(addToast({ type: "success", message: "成功更新產品！🎉" }));
+    store.dispatch(
+      createAsyncToast({ status: "success", text: "成功更新產品！🎉" })
+    );
 
     return data;
   } catch (error) {
     store.dispatch(
-      addToast({ type: "error", message: "更新產品發生錯誤...☹️" })
+      createAsyncToast({ status: "error", text: error.response.data.message })
     );
     console.error(error);
     return null;
@@ -103,12 +113,12 @@ export async function uploadImage(imageFile) {
     const res = await axios.post(url, formData);
     const uploadedImageUrl = res.data.imageUrl;
 
-    store.dispatch(addToast({ type: "success", message: "成功上傳圖片！🎉" }));
+    store.dispatch(addToast({ status: "success", text: "成功上傳圖片！🎉" }));
 
     return uploadedImageUrl;
   } catch (error) {
     store.dispatch(
-      addToast({ type: "error", message: "上傳圖片發生錯誤...☹️" })
+      addToast({ status: "error", text: error.response.data.message })
     );
     console.error(error);
     return null;

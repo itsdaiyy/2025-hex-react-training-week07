@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { login } from "../services/apiAuth";
+import { useNavigate } from "react-router-dom";
 
-function Login({ setIsAuth }) {
+function Login({ setIsScreenLoading }) {
+  const navigate = useNavigate();
+
   // 儲存使用者表單資料
   const [formData, setFormData] = useState({
     username: "",
@@ -19,19 +22,16 @@ function Login({ setIsAuth }) {
       console.error("請輸入使用者名稱和密碼");
       return;
     }
-
+    setIsScreenLoading(true);
     const res = await login(formData);
 
-    if (!res) {
-      alert("登入失敗");
-      return;
-    }
-
     // 判斷是否成功取得 token 並更新認證狀態
-    setIsAuth(!!res?.token);
-
+    if (res?.token) {
+      navigate("/admin");
+    }
     // 清空表單資料（重置表單）
     setFormData({ username: "", password: "" });
+    setIsScreenLoading(false);
   }
 
   function handleInputChange(e) {

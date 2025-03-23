@@ -6,6 +6,7 @@ import ProductsListItem from "../components/ProductsListItem";
 import ProductModal from "../components/ProductModal";
 import DeleteProductModal from "../components/DeleteProductModal";
 import Pagination from "../components/Pagination";
+import ReactLoading from "react-loading";
 
 const defaultModalState = {
   imageUrl: "",
@@ -20,7 +21,8 @@ const defaultModalState = {
   imagesUrl: [""],
 };
 
-function AdminDashboard({ setIsScreenLoading }) {
+function AdminPage() {
+  const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [modalMode, setModalMode] = useState(null);
   const [tempProduct, setTempProduct] = useState(defaultModalState);
@@ -55,7 +57,7 @@ function AdminDashboard({ setIsScreenLoading }) {
 
   return (
     <>
-      <div className="container py-4 px-5 border mb-4 text-end">
+      <div className="container py-4 px-5 border m-4 text-end">
         <button
           type="button"
           className="btn btn-outline-primary"
@@ -117,8 +119,21 @@ function AdminDashboard({ setIsScreenLoading }) {
         isOpen={isDeleteModalOpen}
         setIsOpen={setIsDeleteModalOpen}
       />
+      {isScreenLoading && (
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(255,255,255,0.3)",
+            zIndex: 999,
+          }}
+        >
+          <ReactLoading type="spin" color="black" width="4rem" height="4rem" />
+        </div>
+      )}
     </>
   );
 }
 
-export default AdminDashboard;
+export default AdminPage;

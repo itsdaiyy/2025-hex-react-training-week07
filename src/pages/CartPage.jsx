@@ -29,6 +29,8 @@ function CartPage() {
     setIsScreenLoading(false);
   }
 
+  console.log(cart);
+
   return (
     <>
       <div className="container my-4">
@@ -84,9 +86,15 @@ function CartPage() {
           </table>
         </div>
       </div>
-      <div className="container my-5">
-        <OrderForm setIsScreenLoading={setIsScreenLoading} setCart={setCart} />
-      </div>
+      {cart.carts.length > 0 && (
+        <div className="container my-5">
+          <OrderForm
+            setIsScreenLoading={setIsScreenLoading}
+            setCart={setCart}
+          />
+        </div>
+      )}
+
       {isScreenLoading && (
         <div
           className="d-flex justify-content-center align-items-center"

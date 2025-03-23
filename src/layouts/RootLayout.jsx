@@ -1,12 +1,10 @@
-import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
-import ToastManager from "../components/ToastManager";
+import Toast from "../components/Toast";
 
 function RootLayout() {
   return (
     <>
-      <ToastManager />
-      <Toaster />
+      <Toast />
       <Outlet />
     </>
   );

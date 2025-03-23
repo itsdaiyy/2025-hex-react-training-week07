@@ -4,7 +4,7 @@ import ReactLoading from "react-loading";
 
 import { checkLogin } from "./services/apiAuth";
 
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminPage from "./pages/AdminPage";
 import Login from "./components/Login";
 import HomePage from "./pages/HomePage";
 
@@ -26,7 +26,7 @@ function App() {
         isScreenLoading={isScreenLoading}
       />
       {isAuth ? (
-        <AdminDashboard setIsScreenLoading={setIsScreenLoading} />
+        <AdminPage setIsScreenLoading={setIsScreenLoading} />
       ) : (
         <Login setIsAuth={setIsAuth} />
       )}

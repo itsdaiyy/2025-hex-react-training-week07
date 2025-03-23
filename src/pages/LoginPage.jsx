@@ -2,32 +2,26 @@ import { useEffect, useState } from "react";
 import { checkLogin } from "../services/apiAuth";
 
 import Login from "../components/Login";
-import AdminDashboard from "./AdminDashboard";
 
 import ReactLoading from "react-loading";
 import { Toaster } from "react-hot-toast";
-import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
-  const [isAuth, setIsAuth] = useState(false);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       const res = await checkLogin();
-      if (res?.success) setIsAuth(true);
+      if (res?.success) navigate("/admin");
     })();
-  }, []);
+  }, [navigate]);
 
   return (
     <>
-      <Navbar />
       <div className="my-5 container">
-        {isAuth ? (
-          <AdminDashboard setIsScreenLoading={setIsScreenLoading} />
-        ) : (
-          <Login setIsAuth={setIsAuth} />
-        )}
+        <Login setIsScreenLoading={setIsScreenLoading} />
 
         {isScreenLoading && (
           <div
