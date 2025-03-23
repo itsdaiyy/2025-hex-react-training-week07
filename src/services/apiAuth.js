@@ -25,7 +25,9 @@ export async function login(account) {
     );
     return { expired, token, message };
   } catch (error) {
-    store.dispatch(createAsyncToast({ status: "error", text: error.message }));
+    store.dispatch(
+      createAsyncToast({ status: "error", text: error.response.data.message })
+    );
     console.error(error);
     return null;
   }
@@ -37,7 +39,7 @@ export async function logout() {
     axios.post(url);
     store.dispatch(createAsyncToast({ status: "success", text: `登出成功` }));
   } catch (error) {
-    store.dispatch(createAsyncToast({ status: "error", text: error.message }));
+    store.dispatch(createAsyncToast({ status: "error", text: `登出失敗` }));
   }
 }
 

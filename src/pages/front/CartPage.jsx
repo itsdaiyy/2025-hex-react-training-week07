@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { clientClearCart, clientGetCart } from "../services/apiCart";
+import { clientClearCart, clientGetCart } from "../../services/apiCart";
 
 import ReactLoading from "react-loading";
-import CartItem from "../components/client/CartItem";
-import OrderForm from "../components/client/OrderForm";
+import CartItem from "../../components/front/CartItem";
+import OrderForm from "../../components/front/OrderForm";
 
 function CartPage() {
   const [cart, setCart] = useState([]);
@@ -20,16 +20,17 @@ function CartPage() {
 
   async function handleClearCart() {
     setIsScreenLoading(true);
-    const clearRes = await clientClearCart();
-    if (clearRes === null) return;
+    try {
+      const clearRes = await clientClearCart();
+      if (clearRes === null) return;
 
-    const res = await clientGetCart();
-    if (res === null) return;
-    setCart(res.data);
-    setIsScreenLoading(false);
+      const res = await clientGetCart();
+      if (res === null) return;
+      setCart(res.data);
+    } finally {
+      setIsScreenLoading(false);
+    }
   }
-
-  console.log(cart);
 
   return (
     <>
@@ -86,12 +87,9 @@ function CartPage() {
           </table>
         </div>
       </div>
-      {cart.carts.length > 0 && (
+      {cart.carts?.length > 0 && (
         <div className="container my-5">
-          <OrderForm
-            setIsScreenLoading={setIsScreenLoading}
-            setCart={setCart}
-          />
+          <OrderForm setCart={setCart} />
         </div>
       )}
 

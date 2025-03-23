@@ -6,7 +6,7 @@ import { createOrder } from "../../services/apiOrders";
 
 import ReactLoading from "react-loading";
 
-function OrderForm({ setIsScreenLoading, setCart }) {
+function OrderForm({ setCart }) {
   const navigate = useNavigate();
 
   const {

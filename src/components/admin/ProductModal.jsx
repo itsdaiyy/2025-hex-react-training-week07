@@ -4,7 +4,7 @@ import {
   getProducts,
   updateProduct,
   uploadImage,
-} from "../services/apiAdminProducts";
+} from "../../services/apiAdminProducts";
 import { Modal } from "bootstrap";
 
 function ProductModal({

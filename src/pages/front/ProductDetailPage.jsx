@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { clientGetSingleProduct } from "../services/apiProducts";
-import { clientAddCartItem } from "../services/apiCart";
+import { clientGetSingleProduct } from "../../services/apiProducts";
+import { clientAddCartItem } from "../../services/apiCart";
 
 import ReactLoading from "react-loading";
 

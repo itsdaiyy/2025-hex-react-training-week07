@@ -51,7 +51,7 @@ export async function clientClearCart() {
     return res.data;
   } catch (error) {
     store.dispatch(
-      createAsyncToast({ status: "error", text: "清除購物車失敗...☹️" })
+      createAsyncToast({ status: "error", text: error.response.data.message })
     );
     console.error(`清除購物車發生錯誤`, error);
     return null;

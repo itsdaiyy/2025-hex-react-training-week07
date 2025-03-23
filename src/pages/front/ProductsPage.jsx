@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { clientGetProducts } from "../services/apiProducts";
-import { clientAddCartItem } from "../services/apiCart";
+import { clientGetProducts } from "../../services/apiProducts";
+import { clientAddCartItem } from "../../services/apiCart";
 import { Link } from "react-router-dom";
 
 import ReactLoading from "react-loading";

@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../redux/store";
-import { addToast, createAsyncToast } from "../redux/toastSlice";
+import { createAsyncToast } from "../redux/toastSlice";
 
 // 從環境變數中解構出 API 基本路徑
 const { VITE_BASE_URL, VITE_API_PATH } = import.meta.env;
@@ -113,12 +113,14 @@ export async function uploadImage(imageFile) {
     const res = await axios.post(url, formData);
     const uploadedImageUrl = res.data.imageUrl;
 
-    store.dispatch(addToast({ status: "success", text: "成功上傳圖片！🎉" }));
+    store.dispatch(
+      createAsyncToast({ status: "success", text: "成功上傳圖片！🎉" })
+    );
 
     return uploadedImageUrl;
   } catch (error) {
     store.dispatch(
-      addToast({ status: "error", text: error.response.data.message })
+      createAsyncToast({ status: "error", text: error.response.data.message })
     );
     console.error(error);
     return null;

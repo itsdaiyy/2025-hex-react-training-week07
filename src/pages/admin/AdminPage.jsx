@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { getProducts } from "../services/apiAdminProducts";
+import { getProducts } from "../../services/apiAdminProducts";
 
-import ProductsListItem from "../components/ProductsListItem";
-import ProductModal from "../components/ProductModal";
-import DeleteProductModal from "../components/DeleteProductModal";
-import Pagination from "../components/Pagination";
+import ProductsListItem from "../../components/admin/ProductsListItem";
+import ProductModal from "../../components/admin/ProductModal";
+import DeleteProductModal from "../../components/admin/DeleteProductModal";
+import Pagination from "../../components/Pagination";
 import ReactLoading from "react-loading";
 
 const defaultModalState = {

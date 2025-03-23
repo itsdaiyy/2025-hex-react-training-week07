@@ -9,11 +9,14 @@ function Pagination({
   async function handlePageChange(page, e) {
     e.preventDefault();
     setIsScreenLoading(true);
-    const data = await getProducts(page);
-    if (data === null) return;
-    setProducts(data.products);
-    setPageInfo(data.pagination);
-    setIsScreenLoading(false);
+    try {
+      const data = await getProducts(page);
+      if (data === null) return;
+      setProducts(data.products);
+      setPageInfo(data.pagination);
+    } finally {
+      setIsScreenLoading(false);
+    }
   }
 
   return (
